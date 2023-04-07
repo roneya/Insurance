@@ -1,13 +1,18 @@
 package com.example.Test.Service;
 
 import com.example.Test.Models.ClientUser;
+import com.example.Test.Models.InsurancePolicy;
+import com.example.Test.Repository.ClaimRepository;
 import com.example.Test.Repository.ClientUserRepository;
+import com.example.Test.Repository.InsurancePolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -15,6 +20,11 @@ import java.util.List;
 public class ClientUserService {
     @Autowired
     ClientUserRepository clientUserRepository;
+    @Autowired
+    InsurancePolicyRepository insurancePolicyRepository;
+    @Autowired
+    private ClaimRepository claimRepository;
+
     public ResponseEntity<String> add(ClientUser c){
 
         clientUserRepository.save(c);
@@ -56,6 +66,28 @@ public class ClientUserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("User is not present");
         }
+    }
+
+
+    public ResponseEntity<String> link(int id, int pid) throws Exception {
+
+        try {
+
+            ClientUser clientUser = clientUserRepository.findById(id).get();
+            InsurancePolicy insurancePolicy = insurancePolicyRepository.findById(pid).get();
+            List<InsurancePolicy> insurancePolicyList = clientUser.getInsurancePolicyList();
+            if(insurancePolicyList.contains(insurancePolicy)){
+                throw new Exception(); //already linked
+            }
+            insurancePolicyList.add(insurancePolicy);
+            clientUser.setInsurancePolicyList(insurancePolicyList);
+            clientUserRepository.save(clientUser);
+
+            return ResponseEntity.ok("Successfully linked");
+        } catch (DataIntegrityViolationException ex) {
+            throw new Exception("User/Policy is not Present or already Linked");
+        }
+
     }
 
 }

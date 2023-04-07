@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -24,6 +26,8 @@ public class ClientUser {
     private Date dataOfBirth;
     private String address;
     private String mobNo;
+    @OneToMany(mappedBy = "clientUser", cascade = CascadeType.ALL)
+    private List<InsurancePolicy> insurancePolicyList =  new ArrayList<>();
 
 
 }

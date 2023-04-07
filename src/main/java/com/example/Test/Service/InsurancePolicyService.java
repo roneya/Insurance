@@ -1,7 +1,9 @@
 package com.example.Test.Service;
 
+import com.example.Test.Models.Claim;
 import com.example.Test.Models.ClientUser;
 import com.example.Test.Models.InsurancePolicy;
+import com.example.Test.Repository.ClaimRepository;
 import com.example.Test.Repository.InsurancePolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,6 +18,8 @@ public class InsurancePolicyService {
 
     @Autowired
     InsurancePolicyRepository insurancePolicyRepository;
+    @Autowired
+    ClaimRepository claimRepository;
 
     public ResponseEntity<String> add(InsurancePolicy insurancePolicy){
 
@@ -59,4 +63,29 @@ public class InsurancePolicyService {
                     .body("Policy is not present");
         }
     }
+
+
+
+
+        public ResponseEntity<String> link(int id, int cid) throws Exception {
+
+            try {
+
+                InsurancePolicy insurancePolicy = insurancePolicyRepository.findById(id).get();
+                Claim claim = claimRepository.findById(cid).get();
+                List<Claim> claimList = insurancePolicy.getClaimList();
+                if(claimList.contains(claim)){
+                    throw new Exception(); //means that claim has already been claimed
+                }
+                claimList.add(claim);
+                insurancePolicy.setClaimList(claimList);
+                insurancePolicyRepository.save(insurancePolicy);
+
+                return ResponseEntity.ok("Successfully linked");
+            } catch (DataIntegrityViolationException ex) {
+                throw new Exception("Policy/Claim is not not present or already Linked");
+            }
+
+        }
+
 }

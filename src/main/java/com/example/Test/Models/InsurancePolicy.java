@@ -4,7 +4,9 @@ import com.example.Test.Enum.Type;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "policies")
@@ -21,5 +23,12 @@ public class InsurancePolicy {
     private int amount;
     private Date startDate;
     private Date endDate;
+
+    @ManyToOne
+    @JoinColumn
+    private ClientUser clientUser;
+
+    @OneToMany( mappedBy = "insurancePolicy",cascade = CascadeType.ALL)
+    private List<Claim> claimList = new ArrayList<>();
 
 }

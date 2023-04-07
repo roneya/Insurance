@@ -23,4 +23,8 @@ public class Claim {
     private Date claimDate;
     @Enumerated(value = EnumType.STRING)
     private Status status;
+
+    @ManyToOne
+    @JoinColumn
+    private InsurancePolicy insurancePolicy;
 }

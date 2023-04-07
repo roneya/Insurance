@@ -38,4 +38,10 @@ public class InsurancePolicyController {
     public ResponseEntity<String> delete(@RequestParam Integer i){
         return insurancePolicyService.delete(i);
     }
+
+
+    @PutMapping("link/{id}")
+    public ResponseEntity<String> link(@RequestParam("id") int clientId, @RequestParam("pid") int claimId) throws Exception {
+        return insurancePolicyService.link(claimId, claimId);
+    }
 }
