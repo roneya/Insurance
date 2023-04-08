@@ -40,8 +40,8 @@ public class InsurancePolicyController {
     }
 
 
-    @PutMapping("link/{id}")
-    public ResponseEntity<String> link(@RequestParam("id") int clientId, @RequestParam("pid") int claimId) throws Exception {
+    @PutMapping("link/{id}/{cid}")
+    public ResponseEntity<String> link(@RequestParam("id") int clientId, @RequestParam("cid") int claimId) throws Exception {
         return insurancePolicyService.link(claimId, claimId);
     }
 }

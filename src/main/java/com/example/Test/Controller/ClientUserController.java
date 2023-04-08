@@ -38,7 +38,7 @@ public class ClientUserController {
         return clientUserService.delete(i);
     }
 
-    @PutMapping("link/{id}")
+    @PutMapping("link/{id}/{pid}")
     public ResponseEntity<String> link(@RequestParam("id") int clientId, @RequestParam("pid") int policyId) throws Exception {
         return clientUserService.link(clientId, policyId);
     }
