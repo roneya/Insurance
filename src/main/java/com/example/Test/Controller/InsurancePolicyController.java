@@ -25,23 +25,23 @@ public class InsurancePolicyController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<InsurancePolicy> get(@RequestParam Integer i) throws Exception {
+    public ResponseEntity<InsurancePolicy> get(@PathVariable Integer i) throws Exception {
         return insurancePolicyService.get(i);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<InsurancePolicy> put(@RequestBody InsurancePolicy insurancePolicy) throws Exception {
+    public ResponseEntity<InsurancePolicy> put(@PathVariable int id("id), @RequestBody InsurancePolicy insurancePolicy) throws Exception {
         return insurancePolicyService.put(insurancePolicy);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@RequestParam Integer i){
+    public ResponseEntity<String> delete(@PathVariable Integer i){
         return insurancePolicyService.delete(i);
     }
 
 
     @PutMapping("link/{id}/{cid}")
-    public ResponseEntity<String> link(@RequestParam("id") int clientId, @RequestParam("cid") int claimId) throws Exception {
+    public ResponseEntity<String> link(@PathVariable("id") int clientId, @PathVariable("cid") int claimId) throws Exception {
         return insurancePolicyService.link(claimId, claimId);
     }
 }
