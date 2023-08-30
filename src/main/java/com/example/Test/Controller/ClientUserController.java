@@ -24,12 +24,12 @@ public class ClientUserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ClientUser> get(@RequestParam Integer i) throws Exception {
+    public ResponseEntity<ClientUser> get(@PathVariable Integer i) throws Exception {
         return clientUserService.get(i);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ClientUser> put(@RequestBody ClientUser clientUser) throws Exception {
+    public ResponseEntity<ClientUser> put(@PathVariable int id("id") ,@RequestBody ClientUser clientUser) throws Exception {
         return clientUserService.put(clientUser);
     }
 
@@ -39,7 +39,7 @@ public class ClientUserController {
     }
 
     @PutMapping("link/{id}/{pid}")
-    public ResponseEntity<String> link(@RequestParam("id") int clientId, @RequestParam("pid") int policyId) throws Exception {
+    public ResponseEntity<String> link(@PathVariable("id") int clientId, @PathVariable("pid") int policyId) throws Exception {
         return clientUserService.link(clientId, policyId);
     }
 
