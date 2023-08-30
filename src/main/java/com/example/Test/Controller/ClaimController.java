@@ -27,7 +27,7 @@ public class ClaimController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Claim> get(@RequestParam Integer i) throws Exception {
+    public ResponseEntity<Claim> get(@PathVariable Integer i) throws Exception {
         return claimService.get(i);
     }
 
@@ -37,7 +37,7 @@ public class ClaimController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@RequestParam Integer i){
+    public ResponseEntity<String> delete(@PathVariable Integer i){
         return claimService.delete(i);
     }
 
